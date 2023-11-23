@@ -1,15 +1,22 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv").config();
+const colors = require("colors");
+const goalsRoutes = require("./routes/goalsRoutes");
 const errorHandler = require("./middlewares/errorMiddleware");
+const connectDB = require("./config/db");
 
+// Databases
+connectDB();
+
+// Configuration
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const goalsRoutes = require("./routes/goalsRoutes");
-
+// Routes
 app.use("/api/goals", goalsRoutes);
 app.use(errorHandler);
 
+// Server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, console.log(`Listening at port ${PORT}`));
